@@ -13,9 +13,10 @@ Test python sketch for Adafruit USB+Serial LCD backpack
 ---> http://www.adafruit.com/category/63_96
 
 Adafruit invests time and resources providing this open source code, 
-please support Adafruit and open-source hardware by purchasing products from Adafruit!
+please support Adafruit and open-source hardware by purchasing
+products from Adafruit!
 
-Written by Limor Fried/Ladyada  for Adafruit Industries.  
+Written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above must be included in any redistribution
 
@@ -37,7 +38,6 @@ class LcdBackpack:
     SET_CURSOR_POSITION = 0x47
     SET_BRIGHTNESS = 0x99
     SET_CONTRAST = 0x50
-    SET_SPLASH_SCREEN = 0x40
     DISPLAY_ON = 0x42
     DISPLAY_OFF = 0x46
     COMMAND_START = 0xFE
@@ -81,6 +81,76 @@ class LcdBackpack:
         """
         return self._ser.is_open
 
+    # create vertical bars in custom chars bank #0
+    def create_cust_chars_Bank0(self):
+        # create vertical bars in custom chars bank #0
+        self._write_command([0xC1, 0, 0, 0x0, 0x11, 0x4, 0xe, 0x4, 0x11, 0x0, 0x0])
+        self._write_command([0xC1, 0, 1, 0x0, 0x4, 0x4, 0xe, 0x1b, 0xe, 0x4, 0x4])
+        self._write_command([0xC1, 0, 2, 0x2, 0x3, 0x2, 0x2, 0xe, 0x1e, 0xc, 0x0])
+        # self._write_command([0xC1, 0, 3, 0x7,0x19,0x1,0x1,0x7,0xf,0x6,0x0])
+        self._write_command([0xC1, 0, 3, 0x0, 0x4, 0xe, 0x11, 0x11, 0x11, 0xe, 0x4])
+        self._write_command([0xC1, 0, 4, 0x0, 0x0, 0x0a, 0x15, 0x11, 0xa, 0x4, 0x0])
+        self._write_command([0xC1, 0, 5, 0x0, 0x15, 0xe, 0x1b, 0xe, 0x15, 0x0, 0x0])
+        self._write_command([0xC1, 0, 6, 0x1, 0x3, 0x5, 0x9, 0xb, 0xb, 0x18, 0x18])
+        self._write_command([0xC1, 0, 7, 0x0, 0xa, 0x1f, 0x1f, 0x1f, 0xe, 0x4, 0x0])
+
+
+    def create_cust_chars_Bank1(self):
+        # create horizontal bars in custom chars bank #1
+        self._write_command([0xC1, 1, 0, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10])
+        self._write_command([0xC1, 1, 1, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18])
+        self._write_command([0xC1, 1, 2, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C, 0x1C])
+        self._write_command([0xC1, 1, 3, 0x1E, 0x1E, 0x1E, 0x1E, 0x1E, 0x1E, 0x1E, 0x1E])
+        self._write_command([0xC1, 1, 4, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF])
+        self._write_command([0xC1, 1, 5, 0x7, 0x7, 0x7, 0x7, 0x7, 0x7, 0x7, 0x7])
+        self._write_command([0xC1, 1, 6, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3])
+        self._write_command([0xC1, 1, 7, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1])
+
+
+    def create_cust_chars_Bank2(self):
+        # create vertical bars in custom chars bank #2
+        self._write_command([0xC1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0x1F])
+        self._write_command([0xC1, 2, 1, 0, 0, 0, 0, 0, 0, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 2, 0, 0, 0, 0, 0, 0x1F, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 3, 0, 0, 0, 0, 0x1F, 0x1F, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 4, 0, 0, 0, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 5, 0, 0, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 6, 0, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F])
+        self._write_command([0xC1, 2, 7, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F])
+
+
+    def create_cust_chars_Bank3(self):
+        # create medium numbers in bank #3
+        self._write_command([0xC1, 3, 0, 0x1F, 0x1F, 0x18, 0x18, 0x18, 0x18, 0x1F, 0x1F])
+        self._write_command([0xC1, 3, 1, 0x1f, 0x1f, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18])
+        self._write_command([0xC1, 3, 2, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x1F, 0x1F])
+        self._write_command([0xC1, 3, 3, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x1F, 0x1F])
+        self._write_command([0xC1, 3, 4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0x1F])
+        self._write_command([0xC1, 3, 5, 0x1F, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+        self._write_command([0xC1, 3, 6, 0x1F, 0x1F, 0x03, 0x03, 0x03, 0x03, 0x1F, 0x1F])
+        self._write_command([0xC1, 3, 7, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18])
+
+
+    def load_cust_chars_Bank0(self):
+        # load bank 0
+        self._write_command([0xC0, 0])
+
+
+    def load_cust_chars_Bank1(self):
+        # load bank 1
+        self._write_command([0xC0, 1])
+
+
+    def load_cust_chars_Bank2(self):
+        # load bank 2
+        self._write_command([0xC0, 2])
+
+
+    def load_cust_chars_Bank3(self):
+        # load bank 3
+        self._write_command([0xC0, 3])
+
+
     def display_on(self):
         """
         Switches the LCD backlight on.
@@ -96,7 +166,7 @@ class LcdBackpack:
     def set_brightness(self, brightness):
         """
         Sets the brightness of the LCD backlight.
-        :param brightness: integer value from 0 - 255 
+        :param brightness: integer value from 0 - 255
         """
         self._write_command([LcdBackpack.SET_BRIGHTNESS, brightness])
 
@@ -156,7 +226,7 @@ class LcdBackpack:
     def set_block_cursor(self, block_cursor):
         """
         Enables/disables the block cursor.
-        :param block_cursor: 
+        :param block_cursor:
         """
         if block_cursor:
             self._write_command([LcdBackpack.BLOCK_CURSOR_OFF])
@@ -167,32 +237,32 @@ class LcdBackpack:
         """
         Sets the RGB LCD backlight to the colour provided by red, green and blue values.
         :param red: integer value 0 - 255
-        :param green: integer value 0 - 255 
+        :param green: integer value 0 - 255
         :param blue: integer value 0 - 255
         """
         self._write_command([LcdBackpack.BACKLIGHT_RGB, red, green, blue])
 
     def set_backlight_red(self):
         """
-        Sets the backlight of an RGB LCD display to be red. 
+        Sets the backlight of an RGB LCD display to be red.
         """
         self.set_backlight_rgb(0xFF, 0, 0)
 
     def set_backlight_green(self):
         """
-        Sets the backlight of an RGB LCD display to be green. 
+        Sets the backlight of an RGB LCD display to be green.
         """
         self.set_backlight_rgb(0, 0xFF, 0)
 
     def set_backlight_blue(self):
         """
-        Sets the backlight of an RGB LCD display to be blue. 
+        Sets the backlight of an RGB LCD display to be blue.
         """
         self.set_backlight_rgb(0, 0, 0xFF)
 
     def set_backlight_white(self):
         """
-        Sets the backlight of an RGB LCD display to be white. 
+        Sets the backlight of an RGB LCD display to be white.
         """
         self.set_backlight_rgb(0xFF, 0xFF, 0xFF)
 
@@ -207,14 +277,14 @@ class LcdBackpack:
     def set_gpio_high(self, gpio):
         """
         Sets the given GPIO pin on the LCD back pack HIGH (5V).
-        :param gpio: the GPIO pin to set HIGH (1 - 4) 
+        :param gpio: the GPIO pin to set HIGH (1 - 4)
         """
         self._write_command([LcdBackpack.GPIO_HIGH, gpio])
 
     def set_gpio_low(self, gpio):
         """
         Sets the given GPIO pin on the LCD back pack LOW (5V).
-        :param gpio: the GPIO pin to set LOW (1 - 4) 
+        :param gpio: the GPIO pin to set LOW (1 - 4)
         """
         self._write_command([LcdBackpack.GPIO_LOW, gpio])
 
@@ -227,22 +297,12 @@ class LcdBackpack:
     def write(self, string):
         """
         Writes the given text on the LCD display.
-        :param string: the text to be written on the display. 
+        :param string: the text to be written on the display.
         """
         if self._ser is None or self._ser.closed:
             raise serial.SerialException('Not connected')
 
         self._ser.write(str.encode(string))
-
-    def set_splash_screen(self, string, lcd_chars):
-        """
-        Sets the LCD splash screen. 
-        :param string: the text to be displayed at LCD start up
-        :param lcd_chars: the total characters of the LCD display
-        """
-        self._write_command(LcdBackpack.SET_SPLASH_SCREEN)
-        self._ser.write('{{0: <{}}}'.format(lcd_chars).format(string).encode())
-
 
     def _write_command(self, command_list):
         """
